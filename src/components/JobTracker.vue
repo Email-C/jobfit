@@ -8,6 +8,8 @@ const showForm = ref(false)
 const newJob = ref({ title: '', company: '', url: '', notes: '' })
 const editingNote = ref(null)
 const noteText = ref('')
+const editingJob = ref(null)
+const editData = ref({ title: '', company: '', url: '', notes: '' })
 const filterStatus = ref('all')
 const toast = ref('')
 
@@ -65,6 +67,30 @@ function openNote(job) {
 function saveNote(job) {
   updateJob(job.id, { notes: noteText.value })
   editingNote.value = null
+}
+
+function startEdit(job) {
+  editingJob.value = job.id
+  editData.value = {
+    title: job.title,
+    company: job.company,
+    url: job.url,
+    notes: job.notes,
+  }
+}
+
+function saveEdit(job) {
+  updateJob(job.id, {
+    title: editData.value.title || '未命名岗位',
+    company: editData.value.company,
+    url: editData.value.url,
+    notes: editData.value.notes,
+  })
+  editingJob.value = null
+}
+
+function cancelEdit() {
+  editingJob.value = null
 }
 
 function formatDate(iso) {
@@ -194,7 +220,35 @@ function showToast(msg) {
 
     <!-- 岗位列表 -->
     <div v-for="job in filteredJobs" :key="job.id" class="card job-card">
-      <div style="display:flex;align-items:flex-start;gap:12px;">
+      <!-- 编辑模式 -->
+      <div v-if="editingJob === job.id">
+        <h3 style="margin-bottom:12px;">✏️ 编辑投递</h3>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="label">公司名称</label>
+            <input class="input" v-model="editData.company" placeholder="公司名称" />
+          </div>
+          <div class="form-group">
+            <label class="label">岗位名称</label>
+            <input class="input" v-model="editData.title" placeholder="岗位名称" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="label">投递链接</label>
+          <input class="input" v-model="editData.url" placeholder="招聘页面URL" />
+        </div>
+        <div class="form-group">
+          <label class="label">备注</label>
+          <textarea class="textarea" v-model="editData.notes" placeholder="备注信息..." rows="2"></textarea>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-primary btn-sm" @click="saveEdit(job)">保存</button>
+          <button class="btn btn-sm" @click="cancelEdit">取消</button>
+        </div>
+      </div>
+
+      <!-- 查看模式 -->
+      <div v-else style="display:flex;align-items:flex-start;gap:12px;">
         <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;padding-top:2px;">
           <button v-for="(s, key) in statusConfig" :key="key"
             :style="{
@@ -242,6 +296,7 @@ function showToast(msg) {
             <span v-if="job.interviewPrep" class="tag tag-success" style="font-size:11px;">已备面</span>
 
             <div style="margin-left:auto;display:flex;gap:4px;">
+              <button class="btn btn-xs" @click="startEdit(job)">编辑</button>
               <button v-if="!job.notes" class="btn btn-xs" @click="openNote(job)">备注</button>
               <button v-else class="btn btn-xs" @click="openNote(job)">编辑备注</button>
               <button v-if="nextStatus[job.status]" class="btn btn-primary btn-xs" @click="advanceStatus(job)">
