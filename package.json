@@ -2,10 +2,32 @@
   "name": "jobfit",
   "version": "1.0.0",
   "type": "module",
+  "homepage": "https://github.com/Email-C/jobfit#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Email-C/jobfit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Email-C/jobfit/issues"
+  },
+  "keywords": [
+    "job-search",
+    "resume",
+    "jd-parser",
+    "interview-prep",
+    "ai-prompt",
+    "career",
+    "vue3"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint . --fix",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "mammoth": "^1.12.0",
@@ -13,6 +35,10 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.7",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^10.0.0",
+    "eslint-plugin-vue": "^10.0.0",
+    "prettier": "^3.5.0",
     "vite": "^8.0.13"
   }
 }
