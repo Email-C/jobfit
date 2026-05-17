@@ -108,6 +108,72 @@ export const RESUME_OPTIMIZE_PROMPT = `你是一位专业的简历优化顾问�
 3. 个人优势/自我评价部分应该如何调整
 4. 给出3个简历中应该删除或弱化的冗余信息`
 
+export const RESUME_PARSE_PROMPT = `你是一位专业的简历解析专家。请对以下从简历文件中提取的原始文本进行结构化提取：
+
+【简历原始文本】
+{raw_text}
+
+请严格按照以下JSON格式输出（只输出JSON，不要输出任何其他内容）：
+
+{
+  "name": "姓名（中文名保留，英文名保留原名）",
+  "email": "邮箱地址",
+  "phone": "手机号码",
+  "education": {
+    "school": "学校全称",
+    "major": "专业全称",
+    "degree": "学历：本科/硕士/博士",
+    "gpa": "GPA（如果有的话，格式如3.8/4.0）",
+    "graduation": "毕业时间（格式如2026年6月）"
+  },
+  "skills": [
+    {"name": "技能名称", "level": "精通/熟练/了解", "category": "AI/LLM/数据分析/产品设计/编程语言/外语/其他"}
+  ],
+  "experiences": [
+    {"company": "公司名称", "role": "岗位名称", "duration": "时间范围", "highlights": "主要产出和成果（保留量化数据）"}
+  ],
+  "projects": [
+    {"name": "项目名称", "description": "一句话描述", "highlights": "技术栈和核心成果"}
+  ],
+  "strengths": "个人优势（一句话概括核心竞争力）",
+  "targetRoles": "目标岗位方向（如果能推断出）"
+}
+
+注意：
+1. 如果某些字段在简历中没有找到，填写空字符串或空数组
+2. 技能掌握程度根据简历描述推断，如果没有明确说明默认"熟练"
+3. 保持原始信息的准确性和完整性，不要编造信息`
+
+export const RESUME_IMAGE_PARSE_PROMPT = `你是一位专业的简历解析专家。请对以下简历图片进行OCR识别和结构化提取。
+
+请严格按照以下JSON格式输出（只输出JSON，不要输出任何其他内容）：
+
+{
+  "name": "姓名",
+  "email": "邮箱地址",
+  "phone": "手机号码",
+  "education": {
+    "school": "学校全称",
+    "major": "专业全称",
+    "degree": "学历",
+    "gpa": "GPA",
+    "graduation": "毕业时间"
+  },
+  "skills": [
+    {"name": "技能名称", "level": "精通/熟练/了解", "category": "AI/LLM/数据分析/产品设计/编程语言/外语/其他"}
+  ],
+  "experiences": [
+    {"company": "公司名称", "role": "岗位名称", "duration": "时间", "highlights": "主要产出"}
+  ],
+  "projects": [
+    {"name": "项目名称", "description": "描述", "highlights": "技术栈和成果"}
+  ],
+  "strengths": "个人优势",
+  "targetRoles": "目标岗位"
+}
+
+注意：如果某些字段在简历中没有找到，填写空字符串或空数组。保持信息准确，不要编造。`
+
 export const COLD_EMAIL_PROMPT = `你是一位职场沟通专家。请基于以下信息，撰写一封求职Cold Message：
 
 【目标公司/岗位】

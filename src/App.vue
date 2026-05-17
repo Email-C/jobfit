@@ -1,23 +1,23 @@
 <script setup>
 import { ref } from 'vue'
+import JobTracker from './components/JobTracker.vue'
 import ResumeManager from './components/ResumeManager.vue'
 import JDParser from './components/JDParser.vue'
 import MatchAnalyzer from './components/MatchAnalyzer.vue'
 import InterviewPrep from './components/InterviewPrep.vue'
-import JobTracker from './components/JobTracker.vue'
 import { useStore } from './stores/useStore.js'
 
 const { state } = useStore()
 
 const tabs = [
+  { id: 'tracker', label: '投递追踪', icon: '📊' },
   { id: 'resume', label: '我的简历', icon: '📋' },
   { id: 'jd', label: 'JD解析', icon: '🔍' },
   { id: 'match', label: '人岗匹配', icon: '🎯' },
   { id: 'interview', label: '面试准备', icon: '💡' },
-  { id: 'tracker', label: '投递追踪', icon: '📊' },
 ]
 
-const activeTab = ref('jd')
+const activeTab = ref('tracker')
 </script>
 
 <template>
@@ -40,16 +40,16 @@ const activeTab = ref('jd')
         </button>
       </nav>
       <div class="sidebar-footer">
-        <a href="https://github.com" target="_blank" class="gh-link">GitHub</a>
+        <a href="https://github.com/Email-C/jobfit" target="_blank" class="gh-link">GitHub</a>
       </div>
     </aside>
 
     <main class="main">
-      <ResumeManager v-if="activeTab === 'resume'" />
+      <JobTracker v-if="activeTab === 'tracker'" />
+      <ResumeManager v-else-if="activeTab === 'resume'" />
       <JDParser v-else-if="activeTab === 'jd'" />
       <MatchAnalyzer v-else-if="activeTab === 'match'" />
       <InterviewPrep v-else-if="activeTab === 'interview'" />
-      <JobTracker v-else-if="activeTab === 'tracker'" />
     </main>
   </div>
 </template>
