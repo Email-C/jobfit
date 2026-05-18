@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Prompt 模板贡献
+    url: https://github.com/Email-C/jobfit/blob/main/CONTRIBUTING.md
+    about: 贡献 Prompt 模板请直接提 PR，参考贡献指南
